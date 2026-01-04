@@ -95,15 +95,23 @@ list.addEventListener('click', event => {
 
   if (event.target.tagName !== 'IMG') return;
 
-  instance = basicLightbox.create(`
+  const instance = basicLightbox.create(`
     <img src="${event.target.dataset.source}" width="800" height="600">
   `);
 
-  instance.show();
-});
 
-document.addEventListener('keydown', event => {
-  if (event.code === 'Escape' && instance) {
-    instance.close();
-  }
+  instance.show();
+
+  const onKeyDown = e => {
+    if (e.code === 'Escape' && instance.visible()) {
+      instance.close();
+      list.removeEventListener('keydown', onKeyDown);
+    }
+  };
+
+  list.addEventListener('keydown', onKeyDown);
+
+
+  list.tabIndex = 0;
+  list.focus();
 });
