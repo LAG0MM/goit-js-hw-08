@@ -64,31 +64,29 @@ const images = [
   },
 ];
 
-const list = document.querySelector('.gallery')
+const list = document.querySelector('.gallery');
 const fragment = document.createDocumentFragment();
 
 images.forEach(({ preview, original, description }) => {
+  const item = document.createElement('li');
+  item.classList.add('gallery-item');
 
-    const item = document.createElement('li')
-    item.classList.add('gallery-item')
+  const link = document.createElement('a');
+  link.classList.add('gallery-link');
+  link.href = original;
 
-    const link = document.createElement('a')
-    link.classList.add('gallery-link')
-    link.href = original
+  const image = document.createElement('img');
+  image.classList.add('gallery-image');
+  image.src = preview;
+  image.dataset.source = original;
+  image.alt = description;
 
-    const image = document.createElement('img')
-    image.classList.add('gallery-image')
-    image.src = preview
-    image.dataset.source = original
-    image.alt = description
-
-    link.appendChild(image);
-    item.appendChild(link);
-    fragment.appendChild(item);
+  link.appendChild(image);
+  item.appendChild(link);
+  fragment.appendChild(item);
 });
-list.appendChild(fragment);
 
-let instance;
+list.appendChild(fragment);
 
 list.addEventListener('click', event => {
   event.preventDefault();
@@ -99,19 +97,14 @@ list.addEventListener('click', event => {
     <img src="${event.target.dataset.source}" width="800" height="600">
   `);
 
-
   instance.show();
 
   const onKeyDown = e => {
     if (e.code === 'Escape' && instance.visible()) {
       instance.close();
-      list.removeEventListener('keydown', onKeyDown);
+      list.removeEventListener('keydown', onKeyDown); 
     }
   };
 
   list.addEventListener('keydown', onKeyDown);
-
-
-  list.tabIndex = 0;
-  list.focus();
 });
