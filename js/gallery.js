@@ -99,12 +99,12 @@ list.addEventListener('click', event => {
 
   instance.show();
 
-  const onKeyDown = e => {
-    if (e.code === 'Escape' && instance.visible()) {
+   const onKeyDown = e => {
+    if (e.code === 'Escape') {
       instance.close();
-      list.removeEventListener('keydown', onKeyDown); 
+      document.removeEventListener('keydown', onKeyDown);
     }
   };
 
-  list.addEventListener('keydown', onKeyDown);
+  document.addEventListener('keydown', onKeyDown);
 });
